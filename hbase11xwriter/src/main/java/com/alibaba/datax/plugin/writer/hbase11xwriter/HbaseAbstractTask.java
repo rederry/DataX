@@ -6,6 +6,8 @@ import com.alibaba.datax.common.exception.DataXException;
 import com.alibaba.datax.common.plugin.RecordReceiver;
 import com.alibaba.datax.common.plugin.TaskPluginCollector;
 import com.alibaba.datax.common.util.Configuration;
+import com.alibaba.lindorm.thirdparty.org.apache.calcite.avatica.org.apache.commons.codec.DecoderException;
+import com.alibaba.lindorm.thirdparty.org.apache.calcite.avatica.org.apache.commons.codec.binary.Hex;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.client.BufferedMutator;
 import org.apache.hadoop.hbase.client.Put;
@@ -109,6 +111,13 @@ public abstract class HbaseAbstractTask {
                     break;
                 case STRING:
                     bytes = this.getValueByte(columnType,column.asString());
+                    break;
+                case BIN_IN_HEX_STRING:
+                    try {
+                        bytes = Hex.decodeHex(column.asString().toCharArray());
+                    } catch (DecoderException e) {
+                        throw DataXException.asDataXException(Hbase11xWriterErrorCode.ILLEGAL_VALUE, "decode hex to bytes failed:" + column.asString());
+                    }
                     break;
                 default:
                     throw DataXException.asDataXException(Hbase11xWriterErrorCode.ILLEGAL_VALUE, "HbaseWriter列不支持您配置的列类型:" + columnType);

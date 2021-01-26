@@ -2,6 +2,7 @@ package com.alibaba.datax.plugin.reader.hbase11xreader;
 
 import com.alibaba.datax.common.element.*;
 import com.alibaba.datax.common.exception.DataXException;
+import com.alibaba.lindorm.thirdparty.org.apache.calcite.avatica.org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.hadoop.hbase.client.Result;
@@ -114,6 +115,9 @@ public abstract class HbaseAbstractTask {
                 break;
             case BINARY_STRING:
                 column = new StringColumn(ArrayUtils.isEmpty(byteArray) ? null : Bytes.toStringBinary(byteArray));
+                break;
+            case BIN_IN_HEX_STRING:
+                column = new StringColumn(ArrayUtils.isEmpty(byteArray) ? null : Hex.encodeHexString(byteArray));
                 break;
             case DATE:
                 String dateValue = Bytes.toStringBinary(byteArray);

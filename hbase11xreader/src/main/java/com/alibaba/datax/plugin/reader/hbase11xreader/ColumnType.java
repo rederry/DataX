@@ -17,7 +17,8 @@ public enum ColumnType {
     DOUBLE("double"),
     DATE("date"),
     STRING("string"),
-    BINARY_STRING("binarystring")
+    BINARY_STRING("binarystring"),
+    BIN_IN_HEX_STRING("binaryinhex")
     ;
 
     private String typeName;

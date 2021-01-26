@@ -15,7 +15,8 @@ public enum ColumnType {
     INT("int"),
     LONG("long"),
     FLOAT("float"),
-    DOUBLE("double")
+    DOUBLE("double"),
+    BIN_IN_HEX_STRING("binaryinhex")
     ;
 
     private String typeName;
